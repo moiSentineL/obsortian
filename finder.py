@@ -35,7 +35,7 @@ class finder:
 
                     frontmatter = self.parse_frontmatter(content)
                     
-                    if 'tags' in frontmatter and 'status' in frontmatter:
+                    if all(match in frontmatter for match in ['tags', 'status']):
                         tags = frontmatter['tags']
                         status = frontmatter['status']
 
@@ -48,7 +48,7 @@ class finder:
         return matching_files
               
 if __name__ == "__main__":
-    
+
     matched = finder().get_matching_files()
     # with open("new", "w") as f: 
     if len(matched) >= 20:
