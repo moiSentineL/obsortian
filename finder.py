@@ -1,7 +1,11 @@
 import os
 import re
-from datetime import datetime
 import yaml
+import json
+
+def conf():
+    with open("conf.json", "r") as f:
+        return json.load(f)
 
 def parse_frontmatter(content):
     frontmatter = {}
@@ -15,7 +19,7 @@ def parse_frontmatter(content):
 def get_matching_files(tag  : str, stat : str):
     matching_files = []
 
-    for root, _, files in os.walk(vault_path := "/home/nibir/Documents/Quantumania/000 Zettelkasten"):
+    for root, _, files in os.walk(vault_path := conf()["vault_path"]):
         for file in files:
             if file.endswith('.md'):
                 file_path = os.path.join(root, file)
@@ -38,7 +42,7 @@ def get_matching_files(tag  : str, stat : str):
                         # matching_files.append(relative_path)
 
 def main():
-    matching_files = get_matching_files("Study", "needs work")
+    matching_files = get_matching_files(conf()["tag"], conf()["status"])
     
     # output = '\n'.join(file_path for file_path, _ in matching_files)
     
@@ -49,3 +53,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # print(conf()["tag"])
