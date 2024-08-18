@@ -1,6 +1,6 @@
 {
-    "vault_path": "/home/nibir/Documents/Quantumania/000 Zettelkasten",
-    "exclusions": "//",
+    "vault_path": "/home/nibir/Documents/Quantumania/",
+    "exclusions": ["Templates"], 
     "tag": "Study",
     "status": "needs work"
 }

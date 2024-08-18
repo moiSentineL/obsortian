@@ -2,6 +2,7 @@ import os
 import re
 import yaml
 import json
+import random
 
 class finder:
     def __init__(self):
@@ -17,7 +18,7 @@ class finder:
                 pass
         return frontmatter
 
-    def get_matching_files(self):
+    def get_matching_files(self) -> list:
         matching_files = []
 
         for root, _, files in os.walk(vault_path := self.data["vault_path"]):
@@ -25,6 +26,9 @@ class finder:
                 if file.endswith('.md'):
                     file_path = os.path.join(root, file)
                     relative_path = os.path.relpath(os.path.join(root, file), vault_path)
+
+                    if any(ex in relative_path for ex in self.data["exclusions"]):
+                        continue
 
                     with open(file_path, 'r', encoding='utf-8') as f:
                         content = f.read()
@@ -39,21 +43,18 @@ class finder:
                         huh = ' '.join(map(str, status)) if isinstance(status, list) else status
                         
                         if str(type(bruh)) != "<class 'NoneType'>" and self.data["tag"] in bruh and self.data["status"] in huh:
-                            print(relative_path)
-                            # matching_files.append(relative_path)
-
-def main():
-    matching_files = finder.get_matching_files()
-    
-    print(matching_files)
-    # output = '\n'.join(file_path for file_path, _ in matching_files)
-    
-    # with open("test.txt", 'w', encoding='utf-8') as f:
-    #     f.write()
-    # print (matching_files)
-    # print(f"Created file 'study_needs_work.txt' with {len(matching_files)} entries.")
-
+                            # print(relative_path)
+                            matching_files.append(os.path.basename(relative_path))
+        return matching_files
+              
 if __name__ == "__main__":
-    finder().get_matching_files()
-    # main()
-    # print(conf()["tag"])
+    
+    matched = finder().get_matching_files()
+    # with open("new", "w") as f: 
+    if len(matched) >= 20:
+        for _ in random.sample([file for file in matched], 20): print(_)
+    # print(matched)
+        print(f"Selected 20 out of {len(matched)}")
+    else:
+        for _ in random.sample([file for file in matched], len(matched)): print(_)
+        # f.write(_) 
