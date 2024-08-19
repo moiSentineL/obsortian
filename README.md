@@ -1,6 +1,6 @@
 # obsortian
 
-<div align-items="center">
+<div align="center">
 
 <p>sort and find markdown files by yaml frontmatter.</p>
 <p><i>thank you necessity.</i></p>
